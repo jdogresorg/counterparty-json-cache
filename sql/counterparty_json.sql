@@ -10,3 +10,5 @@ CREATE TABLE counterparty_json (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE INDEX asset_id ON counterparty_json (asset_id);
+CREATE INDEX created ON counterparty_json (created);
+CREATE INDEX updated ON counterparty_json (updated);
