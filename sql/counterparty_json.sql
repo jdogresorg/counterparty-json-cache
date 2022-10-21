@@ -3,6 +3,7 @@ CREATE TABLE counterparty_json (
     id             INTEGER UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     testnet        BOOLEAN,                                                     -- indicates if this is a testnet record
     asset_id       INTEGER UNSIGNED,                                            -- id of record in assets
+    url            VARCHAR(255),                                                -- URL of the JSON requested
     json           JSON,                                                        -- Actual JSON 
     hash           CHAR(64) NOT NULL,                                           -- sha256sum hash of the JSON data
     created        datetime NOT NULL default now(),                             -- Time record was first created

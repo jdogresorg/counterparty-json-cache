@@ -86,17 +86,18 @@ foreach($assets as $asset){
                     $json = json_encode($json, JSON_UNESCAPED_SLASHES);
                     $hash = hash('sha256', $json);
                     $json = $mysqli->real_escape_string($json);
+                    $url  = $mysqli->real_escape_string($url);
                     $sql  = false;
                     // Handle checking if we already have JSON for this asset
                     $results2 = $mysqli->query("SELECT id, hash FROM {$dbase}.counterparty_json WHERE asset_id='{$row->id}' LIMIT 1");
                     if($results2){
                         if($results2->num_rows==0){
-                            $sql = "INSERT INTO {$dbase}.counterparty_json (testnet, asset_id, json, hash, created, updated) values ({$testnet}, {$row->id}, '{$json}', '{$hash}',now(), now() )";
+                            $sql = "INSERT INTO {$dbase}.counterparty_json (testnet, asset_id, url, json, hash, created, updated) values ({$testnet}, {$row->id}, '{$url}','{$json}', '{$hash}',now(), now() )";
                         } else {
                             $info = (object) $results2->fetch_assoc();
                             // Only update if the sha256 hashes differ
                             if($info->hash != $hash)
-                                $sql = "UPDATE {$dbase}.counterparty_json SET json='{$json}', hash='{$hash}', updated=now() WHERE id='{$info->id}'";
+                                $sql = "UPDATE {$dbase}.counterparty_json SET url='{$url}', json='{$json}', hash='{$hash}', updated=now() WHERE id='{$info->id}'";
                         }
                     }
                     // Handle creating / Updating the record in counterparty_json
@@ -118,7 +119,8 @@ foreach($assets as $asset){
     print " Done [{$time}ms]\n";
 
     // Save block# to state file (so we can resume from this block next run)
-    file_put_contents(LASTFILE, $current);
+    if(!$all && !$asset)
+        file_put_contents(LASTFILE, $current);
 }
 
 
