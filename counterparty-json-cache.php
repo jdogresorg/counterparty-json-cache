@@ -119,7 +119,7 @@ foreach($assets as $asset){
     print " Done [{$time}ms]\n";
 
     // Save block# to state file (so we can resume from this block next run)
-    if(!$all && !$asset)
+    if(!$all)
         file_put_contents(LASTFILE, $current);
 }
 
