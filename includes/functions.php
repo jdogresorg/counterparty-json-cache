@@ -97,6 +97,7 @@ function getAssetDatabaseId($asset=null){
 
 // Handle taking string and returning valid url
 function getValidUrl($url){
+    $url = trim($url);
     if(strpos($url, '://') == false)
         $url = 'http://' . $url;
     // If this is indiesquare url.... use http (their ssl cert expired a while ago)
@@ -108,6 +109,7 @@ function getValidUrl($url){
 
 // Handle making a request for a remote URL via curl (so we can use timeouts nicely)
 function getRemoteUrl( $url=null, $timeout=30 ){
+    $url = trim($url);
     // Make sure url starts with http:// or https://
     if(strtolower(substr($url,0,7))!='http://' && strtolower(substr($url,0,8))!='https://')
         $url = 'http://' . $url;
